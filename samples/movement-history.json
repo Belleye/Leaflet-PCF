@@ -1,0 +1,10 @@
+[
+  {"assetId":"demo-ht-01","latitude":-32.06972,"longitude":116.02922,"speedKph":28,"recordedAt":"2026-11-11T10:40:00+08:00"},
+  {"assetId":"demo-ht-01","latitude":-32.06994,"longitude":116.02896,"speedKph":0,"recordedAt":"2026-11-11T10:38:00+08:00"},
+  {"assetId":"demo-ht-02","latitude":-32.07060,"longitude":116.03060,"speedKph":18,"recordedAt":"2026-11-11T10:39:00+08:00"},
+  {"assetId":"demo-ht-02","latitude":-32.07033,"longitude":116.03064,"speedKph":14,"recordedAt":"2026-11-11T10:41:00+08:00"},
+  {"assetId":"demo-ht-03","latitude":-32.06914,"longitude":116.03196,"speedKph":0,"recordedAt":"2026-11-11T10:40:00+08:00"},
+  {"assetId":"demo-ld-01","latitude":-32.07028,"longitude":116.02825,"speedKph":8,"recordedAt":"2026-11-11T10:41:00+08:00"},
+  {"assetId":"demo-wc-01","latitude":-32.0689186,"longitude":116.0304656,"speedKph":22,"recordedAt":"2026-11-11T10:41:00+08:00"},
+  {"assetId":"demo-gr-01","latitude":-32.07123,"longitude":116.03076,"speedKph":0,"recordedAt":"2026-11-11T10:41:00+08:00"}
+]

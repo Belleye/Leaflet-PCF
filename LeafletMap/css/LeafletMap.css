@@ -1,0 +1,64 @@
+.mine-map { --ink:#203b34; --muted:#66776f; --green:#438875; --amber:#d69b31; --red:#c65646; font-family:"Segoe UI",Arial,sans-serif; color:var(--ink); background:#fcfcf8; border:1px solid #d6dfd6; border-radius:14px; overflow:hidden; box-sizing:border-box; display:flex; flex-direction:column; width:100%; height:100%; min-height:300px; isolation:isolate; }
+.mine-map *, .mine-map *::before, .mine-map *::after { box-sizing:border-box; }
+.mine-map [hidden] { display:none !important; }
+.mine-map__header { display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between; padding:18px 22px; border-bottom:1px solid #dce3d9; flex-shrink:0; }
+.mine-map__eyebrow { font-size:10px; letter-spacing:2px; font-weight:700; color:var(--muted); }
+.mine-map__title { font-size:22px; font-weight:600; margin:3px 0 0; letter-spacing:-.5px; }
+.mine-map__actions { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.mine-map__count { font-size:12px; color:var(--muted); margin-right:8px; }
+.mine-map button { background:#fff; border:1px solid #c9d5cc; border-radius:7px; color:var(--ink); min-height:44px; padding:8px 13px; font:600 12px "Segoe UI",Arial,sans-serif; cursor:pointer; }
+.mine-map button:hover { background:#eef3ed; }
+.mine-map button:disabled { opacity:.45; cursor:default; }
+.mine-map button:focus-visible, .mine-map .leaflet-marker-icon:focus-visible, .mine-map .leaflet-control-zoom a:focus-visible { outline:3px solid #265be4; outline-offset:4px; }
+.mine-map__stage { position:relative; flex:1; min-height:150px; }
+.mine-map__surface { position:absolute; inset:0; width:100%; height:100%; background-color:#e8ecdf; background-image:linear-gradient(#9eaf9b25 1px,transparent 1px),linear-gradient(90deg,#9eaf9b25 1px,transparent 1px); background-size:32px 32px; font-family:inherit; }
+.mine-map__demo { position:absolute; top:16px; right:16px; z-index:450; background:#fffdf5ed; border:1px solid #d6caaa; color:#746242; border-radius:5px; padding:7px 10px; font-size:11px; pointer-events:none; }
+.mine-map__message { padding:10px 18px; background:#fff0d6; color:#714b13; font-size:12px; max-height:90px; overflow:auto; flex-shrink:0; }
+.mine-map__tile-message { position:absolute; bottom:35px; left:12px; right:12px; width:fit-content; margin:auto; z-index:450; background:#fff8e8f5; color:#714b13; padding:9px 12px; border:1px solid #e1cba1; border-radius:6px; font-size:12px; pointer-events:none; }
+.mine-map__empty { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:450; background:#fffffff2; padding:18px 24px; border-radius:9px; border:1px solid #d3ddcf; font-size:13px; text-align:center; max-width:85%; pointer-events:none; }
+.mine-map__footer { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; padding:14px 20px; background:#fcfcf8; border-top:1px solid #dce3d9; flex-shrink:0; }
+.mine-map__legend { display:flex; gap:15px; flex-wrap:wrap; }
+.mine-map__legend-item { display:inline-flex; align-items:center; gap:6px; font-size:11px; color:#53675c; }
+.mine-map__legend-item::before { content:""; width:8px; height:8px; border-radius:50%; background:var(--green); }
+.mine-map__legend-item--warning::before { background:var(--amber); }
+.mine-map__legend-item--low::before { background:var(--red); }
+.mine-map__legend-item--unknown::before { background:#8a9992; }
+.mine-map__selection { color:#53675c; font-size:12px; }
+.mine-map__marker { background:none; border:none; }
+.mine-marker { --tone:var(--green); width:72px; height:72px; border-radius:50%; padding:4px; background:conic-gradient(var(--tone) var(--fuel),#d9e0d6 0); box-shadow:0 3px 12px #203b3433,0 0 0 3px #ffffffdf; position:relative; transform:scale(0.666667); transform-origin:center; }
+.mine-marker--warning { --tone:var(--amber); }
+.mine-marker--low { --tone:var(--red); }
+.mine-marker--unknown { --tone:#8a9992; background:repeating-conic-gradient(#8a9992 0deg 12deg,#d9e0d6 12deg 24deg); }
+.mine-marker.is-selected { box-shadow:0 0 0 4px #fff,0 0 0 7px #244f43,0 4px 18px #203b3444; }
+.mine-marker__face { width:64px; height:64px; border-radius:50%; background:#fdfef9; display:flex; flex-direction:column; align-items:center; justify-content:center; overflow:hidden; }
+.mine-marker__equipment { width:47px; height:41px; position:relative; display:block; }
+.mine-marker__equipment svg { width:100%; height:100%; display:block; }
+.mine-marker__equipment img { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; background:#fdfef9; }
+.mine-marker__fuel { font:700 11px/15px "Segoe UI",Arial,sans-serif; color:#344c40; margin-top:-3px; }
+.mine-marker__status { position:absolute; right:1px; bottom:0; width:14px; height:14px; border:3px solid #fff; background:#438875; border-radius:50%; }
+.mine-marker__status--idle { background:#d69b31; }
+.mine-marker__status--maintenance { background:#c65646; border-radius:4px; }
+.mine-map .mine-map__label { background:#fffffff2; border:1px solid #d1dbcf; box-shadow:0 2px 5px #203b3410; color:#284335; font:600 11px/16px "Segoe UI",Arial,sans-serif; padding:2px 7px; border-radius:4px; }
+.mine-map .mine-map__label::before { display:none; }
+.mine-map .leaflet-control-zoom { border:1px solid #c9d5cc; box-shadow:0 2px 8px #203b3415; border-radius:8px; overflow:hidden; }
+.mine-map .leaflet-control-zoom a { width:44px; height:44px; line-height:44px; color:#284335; }
+.mine-map .leaflet-control-attribution { font-size:10px; background:#ffffffe8; }
+.mine-map .leaflet-control-attribution a { color:#3e6659; }
+@media (max-width:760px) { .mine-map__header { padding:12px 15px; gap:8px; } .mine-map__title { font-size:19px; } .mine-map__count { margin-right:0; } .mine-map__footer { padding:10px 15px; } }
+
+.generic-marker { width:72px; height:72px; display:grid; place-items:center; border-radius:50%; background:#fff; border:3px solid #438875; color:#203b34; font-size:26px; font-weight:700; box-shadow:0 3px 12px #203b3433; overflow:hidden; }
+.generic-marker img { width:100%; height:100%; object-fit:contain; }
+.generic-marker.is-selected, .custom-marker.is-selected { outline:4px solid #244f43; outline-offset:3px; }
+.custom-marker { width:72px; height:72px; display:flex; align-items:center; justify-content:center; }
+
+.mine-map__controls { position:absolute; top:12px; right:12px; z-index:450; display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
+.mine-map__controls button { background:#fff; border:1px solid #c9d5cc; border-radius:7px; color:#203b34; min-height:44px; padding:8px 13px; font:600 12px "Segoe UI",Arial,sans-serif; cursor:pointer; box-shadow:0 2px 8px #203b3415; }
+.mine-map__controls button:hover { background:#eef3ed; }
+.mine-map__controls button:disabled { opacity:.5; cursor:not-allowed; }
+
+.mine-map__controls .mine-map__icon-button { width:44px; height:44px; padding:10px; display:grid; place-items:center; }
+.mine-map__icon-button svg { width:21px; height:21px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
+.mine-map__layer-chooser { position:relative; }
+.mine-map__layers-menu { position:absolute; top:50px; right:0; min-width:160px; max-height:240px; overflow-y:auto; padding:4px; border:1px solid #c9d5cc; border-radius:8px; background:white; box-shadow:0 4px 16px #203b342b; }
+.mine-map__controls .mine-map__layer-option { width:100%; box-shadow:none; border:0; text-align:left; display:block; white-space:nowrap; }
+.mine-map__layer-option[aria-pressed="true"] { background:#e4f0e9; }

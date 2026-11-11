@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="MineOperations" constructor="LeafletMap" version="1.10.0" display-name-key="Leaflet_PCF" description-key="Read-only Leaflet map for Canvas apps with markers and selection outputs." control-type="standard">
+    <external-service-usage enabled="true">
+      <domain>tile.openstreetmap.org</domain>
+      <domain>tiles.maps.eox.at</domain>
+      <domain>gibs.earthdata.nasa.gov</domain>
+      <domain>api.mapbox.com</domain>
+    </external-service-usage>
+    <property name="AssetsJson" display-name-key="Marker records JSON" description-key="JSON array of marker records filtered by the Canvas app. Use [] for no markers." of-type="Multiple" usage="input" required="false" pfx-default-value='""' />
+    <property name="RoadsGeoJson" display-name-key="GeoJSON shapes" description-key="GeoJSON geometry, feature or feature collection. Empty FeatureCollection hides shapes." of-type="Multiple" usage="input" required="false" pfx-default-value='""' />
+    <property name="UseDemoData" display-name-key="Use demo data" description-key="Use fictional equipment and roads when the corresponding JSON input is blank." of-type="TwoOptions" usage="input" required="false" pfx-default-value="true" />
+    <property name="ShowBasemap" display-name-key="Show basemap" description-key="Allow online OpenStreetMap and configured custom tile providers. Turn off for a network-free schematic." of-type="TwoOptions" usage="input" required="false" pfx-default-value="true" />
+    <property name="ShowLabels" display-name-key="Show equipment labels" description-key="Display equipment names beside markers." of-type="TwoOptions" usage="input" required="false" pfx-default-value="true" />
+    <property name="LabelPosition" display-name-key="Label position" description-key="Marker label direction: bottom, top, left or right." of-type="SingleLine.Text" usage="input" required="false" pfx-default-value='"bottom"' />
+    <property name="LabelOffsetX" display-name-key="Label offset X" description-key="Horizontal marker label adjustment in pixels." of-type="Whole.None" usage="input" required="false" pfx-default-value="0" />
+    <property name="LabelOffsetY" display-name-key="Label offset Y" description-key="Vertical marker label adjustment in pixels." of-type="Whole.None" usage="input" required="false" pfx-default-value="0" />
+    <property name="MapTitle" display-name-key="Map title" description-key="Legacy property retained for compatibility; the map does not display a title." of-type="SingleLine.Text" usage="input" required="false" pfx-default-value='"Mine operations"' />
+    <property name="ImageCatalogJson" display-name-key="Image catalogue JSON" description-key="JSON array of imageKey and imageUrl records for markers." of-type="Multiple" usage="input" required="false" pfx-default-value='""' />
+    <property name="MarkerHtmlTemplate" display-name-key="Marker HTML template" description-key="Optional maker-authored marker template with text placeholders and an imageUrl placeholder." of-type="Multiple" usage="input" required="false" pfx-default-value='""' />
+    <property name="HtmlCatalogJson" display-name-key="HTML catalogue JSON" description-key="JSON array of htmlKey and html records for individual marker templates." of-type="Multiple" usage="input" required="false" pfx-default-value='""' />
+    <property name="CustomTileProvidersJson" display-name-key="Custom tile providers JSON" description-key="Optional JSON array of tile providers with name, URL, attribution, maxNativeZoom and optional API key." of-type="Multiple" usage="input" required="false" pfx-default-value='""' />
+    <property name="SelectedAssetId" display-name-key="Selected asset ID" description-key="Stable ID selected inside the PCF. Empty when cleared or filtered out." of-type="SingleLine.Text" usage="output" />
+    <property name="SelectedAssetJson" display-name-key="Selected asset JSON" description-key="Selected equipment record as JSON. Empty when no selection." of-type="Multiple" usage="output" />
+    <property name="SelectionVersion" display-name-key="Selection version" description-key="Increments for every marker selection, including repeated selections." of-type="Whole.None" usage="output" />
+    <property name="ValidationMessage" display-name-key="Validation message" description-key="Input validation issues, or empty when valid." of-type="Multiple" usage="output" />
+    <resources>
+      <code path="index.ts" order="1" />
+      <css path="css/leaflet.css" order="1" />
+      <css path="css/LeafletMap.css" order="2" />
+    </resources>
+  </control>
+</manifest>

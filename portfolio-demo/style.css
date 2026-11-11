@@ -1,0 +1,44 @@
+:root { font-family: "Segoe UI", Arial, sans-serif; color: #242424; background: #f4f5f6; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+.portfolio-nav { height: 56px; display:flex; align-items:center; justify-content:space-between; padding:0 max(24px, calc((100vw - 1370px)/2)); background:#fff; border-bottom:1px solid #e3e4e6; }
+.portfolio-nav a { color:#3b4b58; font-size:14px; text-decoration:none; font-weight:600; }
+.portfolio-nav a:hover { color:#0067b8; }
+.nav-label { color:#78828a; font-size:10px; letter-spacing:.14em; font-weight:700; }
+.app-frame { max-width:1366px; margin:26px auto 0; padding:16px; background:#f5f5f5; border:1px solid #dedede; box-shadow:0 2px 9px #00000012; }
+.app-header { height:76px; position:relative; display:flex; align-items:center; justify-content:center; background:#fff; border:1px solid #e4e4e4; border-radius:8px; box-shadow:0 2px 4px #0000000d; }
+h1 { font-size:30px; font-weight:400; margin:0; }
+button { font:inherit; cursor:pointer; }
+#mapbox-button, #apply-token { background:#106ebe; border:1px solid #106ebe; color:white; border-radius:3px; padding:9px 16px; font-size:12px; font-weight:600; }
+#mapbox-button { position:absolute; right:10px; }
+#mapbox-button:hover, #apply-token:hover { background:#005a9e; }
+.map-frame { margin-top:14px; padding:8px; background:white; border:1px solid #e4e4e4; border-radius:8px; box-shadow:0 2px 4px #0000000d; }
+#map { height:min(63vh, 640px); min-height:420px; }
+#map .mine-map { border-radius:7px; }
+.demo-note { max-width:1366px; margin:12px auto 24px; color:#727b82; font-size:12px; }
+dialog { border:0; border-radius:8px; box-shadow:0 12px 45px #0004; max-width:460px; width:calc(100% - 32px); padding:24px; }
+dialog::backdrop { background:#0007; }
+.dialog-head { display:flex; justify-content:space-between; align-items:center; }
+h2 { font-size:20px; font-weight:600; margin:0; }
+.close { border:0; background:transparent; font-size:26px; color:#555; }
+dialog p { font-size:14px; line-height:1.5; color:#555; }
+dialog label { display:block; font-size:13px; font-weight:600; margin:18px 0 6px; }
+dialog input { width:100%; padding:10px; border:1px solid #999; border-radius:3px; font:inherit; }
+dialog .privacy { font-size:12px; color:#666; }
+.dialog-actions { display:flex; justify-content:flex-end; gap:8px; margin-top:22px; }
+.secondary { border:1px solid #999; background:white; border-radius:3px; padding:8px 16px; }
+@media(max-width:700px) { .app-frame { margin:12px 8px 0; padding:8px; } .app-header { height:62px; justify-content:flex-start; padding-left:14px; } h1 { font-size:22px; } #mapbox-button { padding:8px; } .map-frame { margin-top:8px; padding:5px; } #map { height:65vh; min-height:380px; } .demo-note { margin:10px 16px 20px; } }
+
+/* The Canvas app places its details panel beside the map. */
+.map-frame { display:flex; align-items:stretch; }
+#map { flex:1 1 auto; min-width:0; }
+.asset-details { flex:0 0 320px; padding:18px 20px; background:#fff; color:#172d2b; overflow:auto; }
+.asset-details[hidden] { display:none; }
+.details-heading { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.details-heading h2 { font-size:19px; font-weight:700; }
+#close-details { width:32px; height:32px; border:0; border-radius:5px; background:#f3f6f5; color:#173a37; font-size:18px; }
+#close-details:hover { background:#e3ece9; }
+.asset-details h3 { font-size:23px; margin:18px 0; }
+.asset-details p { font-size:16px; margin:0 0 18px; color:#222; }
+@media(max-width:700px) { .map-frame { position:relative; } .asset-details { position:absolute; z-index:500; right:5px; top:5px; bottom:5px; width:min(280px, 80%); box-shadow:-4px 0 15px #0002; } .asset-details p { font-size:14px; } }
+@media(prefers-reduced-motion:no-preference) { .asset-details:not([hidden]) { animation:reveal-details .2s ease-out; } @keyframes reveal-details { from { opacity:0; transform:translateX(12px); } to { opacity:1; transform:translateX(0); } } }

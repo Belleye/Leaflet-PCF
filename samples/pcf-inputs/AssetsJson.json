@@ -1,0 +1,10 @@
+[
+  {"id":"demo-ht-01","name":"HT-01","type":"haul-truck","latitude":-32.06949,"longitude":116.02949,"status":"operating","fuelPercent":76,"fields":{"speedKph":31,"operator":"A. Parker","assignment":"Main haul circuit"}},
+  {"id":"demo-ht-02","name":"HT-02","type":"haul-truck","latitude":-32.07033,"longitude":116.03064,"status":"operating","fuelPercent":18,"fields":{"speedKph":14,"operator":"J. Nguyen","assignment":"Loading spur"}},
+  {"id":"demo-ht-03","name":"HT-03","type":"haul-truck","latitude":-32.06914,"longitude":116.03196,"status":"idle","fuelPercent":53,"fields":{"speedKph":0,"operator":"M. Smith","assignment":"Standby"}},
+  {"id":"demo-ld-01","name":"LD-01","type":"loader","latitude":-32.07028,"longitude":116.02825,"status":"operating","fuelPercent":62,"fields":{"speedKph":8,"operator":"R. Taylor","assignment":"Loading bay A"}},
+  {"id":"demo-wc-01","name":"WC-01","type":"water-cart","latitude":-32.0689186,"longitude":116.0304656,"status":"operating","fuelPercent":34,"fields":{"speedKph":22,"operator":"S. Morgan","assignment":"Dust suppression"}},
+  {"id":"demo-gr-01","name":"GR-01","type":"grader","latitude":-32.07123,"longitude":116.03076,"status":"idle","fuelPercent":87,"fields":{"speedKph":0,"operator":"K. Jones","assignment":"Road maintenance"}},
+  {"id":"demo-dz-01","name":"DZ-01","type":"dozer","latitude":-32.07128,"longitude":116.02915,"status":"maintenance","fuelPercent":null,"fields":{"speedKph":0,"operator":"Workshop crew","assignment":"Scheduled service"}},
+  {"id":"demo-cr-01","name":"CR-01","type":"crusher","latitude":-32.07230,"longitude":116.03163,"status":"operating","fuelPercent":null,"fields":{"speedKph":0,"operator":"Plant crew","assignment":"Primary crushing"}}
+]

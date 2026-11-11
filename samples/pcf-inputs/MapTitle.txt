@@ -1,0 +1,1 @@
+Mine operations demo (legacy; no title is rendered)
