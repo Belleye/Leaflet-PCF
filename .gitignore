@@ -30,3 +30,6 @@
 
 # Local Mapbox test configuration
 /mapbox.local.js
+
+# Local agent skills
+/.agents/

@@ -14,6 +14,8 @@ A read-only [Leaflet](https://leafletjs.com/) map component for **Power Apps Can
 
 The component displays data supplied by the app. It does not provide playback, coordinate editing, live location tracking, routing or data writes.
 
+For contributors, start with [project context and domain language](CONTEXT.md), [architecture](docs/architecture.md), [development and delivery](docs/development.md), and [observed architectural decisions](docs/adr/README.md).
+
 ## Try it locally
 
 Requires Node.js 22.12+ and npm. From this directory:
@@ -211,6 +213,8 @@ Custom provider domains are not automatically inserted into the PCF manifest: ad
 The street basemap uses `https://tile.openstreetmap.org/{z}/{x}/{y}.png` with visible attribution, ordinary browser caching and no prefetch/offline tile download. Tile delivery is best-effort. Confirm host networking/referrer behavior and the [OSM tile usage policy](https://operations.osmfoundation.org/policies/tiles/) for deployment. Turning off `ShowBasemap` removes the tile layer; bundled demo markers and roads continue to work. The layers button opens a menu containing OpenStreetMap and the custom providers supplied by the host. The optional sample array includes EOX Sentinel-2 cloudless 2016 and NASA GIBS MODIS Terra true-colour imagery. NASA GIBS uses the latest available daily image and has approximately 250 m native resolution (zoom 9), so it is useful for regional context rather than site-level detail. Tiles are enlarged at higher zoom. The EOX imagery is 2016 imagery. EOX allows free commercial use of this 2016 layer with attribution and reasonable traffic; its public service has no uptime guarantee. The imagery is from 2016, approximately 10 m resolution and available to zoom level 14; tiles are enlarged at higher zoom, so it will not show fine equipment or roads. See the [EOX usage FAQ](https://cloudless.eox.at/documentation/faq). For custom providers, see the configuration below; the provider domain must also be listed in the component manifest before deployment.
 
 The manifest declares external service usage for `tile.openstreetmap.org`, `tiles.maps.eox.at`, `gibs.earthdata.nasa.gov` and `api.mapbox.com`. Microsoft classifies components using external services as premium; see [external service usage](https://learn.microsoft.com/en-us/power-apps/developer/component-framework/manifest-schema-reference/external-service-usage). The declaration stays in this package when the basemap is disabled.
+
+`ShowBasemap=false` disables tile requests, not every possible network request. Configured HTTPS marker images and resources referenced by maker-authored template styles can still load. The manifest's schematic-background description should be read with that scope.
 
 The original road segment came from the PRD's GeoJSON sample. Added spurs, equipment, fuel and operating status are fictional and do not represent actual mine roads or conditions. Movement histories and playback are deferred.
 

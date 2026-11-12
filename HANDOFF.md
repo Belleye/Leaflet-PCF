@@ -2,6 +2,10 @@
 
 Updated: 2026-11-11
 
+Architecture documentation added 2026-11-12: use [CONTEXT.md](CONTEXT.md), [architecture](docs/architecture.md) and [development](docs/development.md) for the current code contract. This handoff remains a historical session snapshot. In particular, its ten-input count and restricted GeoJSON list below are outdated; the manifest now declares 13 inputs, and the parser supports all standard geometry types. Environment and publication status below have not been reverified.
+
+Subsequent maintainer update: the Canvas app has been created and is currently working. The unfinished app-wiring notes below are historical and have not been independently rechecked.
+
 ## Project goal
 
 Build a reusable, read-only Leaflet PCF for Canvas apps on desktop and tablet. The map visualizes locations, optional roads, markers, and selection outputs. The host Canvas app owns filtering and record details. The current illustrative dataset is a fictional mine operation; the control should remain usable for other domains.
