@@ -1,4 +1,4 @@
-import { LeafletMap } from "../LeafletMap";
+import { LocationMap } from "../LeafletMap";
 import type { IInputs, IOutputs } from "../LeafletMap/generated/ManifestTypes";
 import { equipmentTypes, Asset } from "../LeafletMap/data";
 import { typeLabels } from "../LeafletMap/equipment";
@@ -32,7 +32,7 @@ let suppliedHtmlCatalog = "";
 let suppliedTileProviders = "";
 let labelPosition = "bottom", labelOffsetX = 0, labelOffsetY = 0;
 let outputs: IOutputs = {};
-const control = new LeafletMap();
+const control = new LocationMap();
 function input(): ComponentFramework.Context<IInputs> {
     const filtered = equipment.filter((asset) => (type.value === "all" || asset.type === type.value) &&
         (status.value === "all" || asset.status === status.value));

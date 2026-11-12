@@ -9,6 +9,31 @@ test.beforeEach(async ({ page }) => {
     await page.locator("#basemap").uncheck();
 });
 
+test("Mapbox attribution follows the active layer and map view", async ({ page }) => {
+    await page.route("https://api.mapbox.com/**", (route) => route.abort());
+    await page.evaluate(() => window.preview.setTileProviders(JSON.stringify([{
+        name: "Mapbox", url: "https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v12/tiles/512/{z}/{x}/{y}?access_token={apiKey}",
+        apiKey: "example", attribution: "Satellite imagery", tileSize: 512, zoomOffset: -1,
+    }])));
+    await page.locator("#basemap").check();
+    const logo = page.locator(".mine-map__mapbox-logo");
+    await expect(logo).toBeHidden();
+    await page.getByRole("button", { name: "Choose map layer" }).click();
+    await page.getByRole("button", { name: "Mapbox", exact: true }).click();
+    await expect(logo).toBeVisible();
+    const attribution = page.locator(".leaflet-control-attribution");
+    await expect(attribution.getByRole("link", { name: "OpenStreetMap" })).toHaveAttribute("href", "https://www.openstreetmap.org/copyright");
+    await expect(attribution.getByRole("link", { name: "Maxar" })).toHaveAttribute("href", "https://www.maxar.com/");
+    const feedback = attribution.getByRole("link", { name: "Improve this map" });
+    const before = await feedback.getAttribute("href");
+    await page.getByRole("button", { name: "Zoom out" }).click();
+    await expect(feedback).not.toHaveAttribute("href", before!);
+    await page.getByRole("button", { name: "Choose map layer" }).click();
+    await page.getByRole("button", { name: "Street map" }).click();
+    await expect(logo).toBeHidden();
+    await expect(feedback).toHaveCount(0);
+});
+
 test("reset fits the data and basemap switch preserves selection", async ({ page }) => {
     const marker = page.getByRole("button", { name: /^HT-01, Haul truck/ });
     await marker.click();

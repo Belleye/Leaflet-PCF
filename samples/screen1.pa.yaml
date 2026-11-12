@@ -1,0 +1,486 @@
+Screens:
+  Screen1:
+    Properties:
+      LoadingSpinnerColor: =RGBA(0, 120, 212, 1)
+    Children:
+      - ScreenContainer1:
+          Control: GroupContainer@1.5.0
+          Variant: AutoLayout
+          Properties:
+            Fill: =RGBA(245, 245, 245, 1)
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutGap: =16
+            PaddingBottom: =16
+            PaddingLeft: =16
+            PaddingRight: =16
+            PaddingTop: =16
+            Width: =Parent.Width
+          Children:
+            - HeaderContainer1:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  Fill: =RGBA(255, 255, 255, 1)
+                  FillPortions: =0
+                  Height: =75
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  PaddingBottom: =8
+                  PaddingLeft: =8
+                  PaddingRight: =8
+                  PaddingTop: =8
+                  RadiusBottomLeft: =8
+                  RadiusBottomRight: =8
+                  RadiusTopLeft: =8
+                  RadiusTopRight: =8
+                Children:
+                  - Text2:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        Text: =
+                        Width: =Button1_1.Width
+                  - Text1:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Align: =Align.Center
+                        AlignInContainer: =AlignInContainer.Stretch
+                        FillPortions: =1
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        Size: =32
+                        Text: ="Leaflet Demo"
+                  - Button1_1:
+                      Control: ModernButton@1.0.0
+                      Properties:
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        OnSelect: |-
+                          =UpdateContext({ctx_ShowMapboxPopup: true})
+                        Text: ="Mapbox API Key"
+                        Width: =140
+            - MainContainer1:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  Fill: =RGBA(255, 255, 255, 1)
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  RadiusBottomLeft: =8
+                  RadiusBottomRight: =8
+                  RadiusTopLeft: =8
+                  RadiusTopRight: =8
+                Children:
+                  - Container1:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        PaddingBottom: =8
+                        PaddingLeft: =8
+                        PaddingRight: =8
+                        PaddingTop: =8
+                      Children:
+                        - Container2:
+                            Control: GroupContainer@1.5.0
+                            Variant: ManualLayout
+                            Properties:
+                              FillPortions: =3
+                              LayoutMinHeight: =16
+                              LayoutMinWidth: =16
+                            Children:
+                              - LeafletMap1:
+                                  Control: CodeComponent
+                                  ComponentName: mine_LocationMaps.LocationMap
+                                  Properties:
+                                    AssetsJson: |-
+                                      =JSON(
+                                          ForAll(
+                                              colEquipment As equipment,
+                                              {
+                                                  id: equipment.id,
+                                                  name: equipment.name,
+                                                  type: Switch(
+                                                      Lower(equipment.type),
+                                                      "haul truck", "haul-truck",
+                                                      "water cart", "water-cart",
+                                                      Lower(equipment.type)
+                                                  ),
+                                                  latitude: equipment.latitude,
+                                                  longitude: equipment.longitude,
+                                                  status: equipment.status,
+                                                  fuelPercent: equipment.fuelPercent,
+                                                  imageKey: Switch(
+                                                      Lower(equipment.type),
+                                                      "haul truck", "haul-truck",
+                                                      "water cart", "water-cart",
+                                                      Lower(equipment.type)
+                                                  ),
+                                                  htmlKey: If(
+                                                      equipment.id = "HT-01",
+                                                      Blank(),
+                                                      If(equipment.id = "DZ-01", "maintenance", "standard")
+                                                  ),
+                                                  html: If(
+                                                      equipment.id = "HT-01",
+                                                      With(
+                                                          {
+                                                              fuel: Max(0, Min(100, Coalesce(equipment.fuelPercent, 0))),
+                                                              gaugeColor: If(
+                                                                  IsBlank(equipment.fuelPercent),
+                                                                  "#8a9992",
+                                                                  equipment.fuelPercent <= 20,
+                                                                  "#c65646",
+                                                                  equipment.fuelPercent <= 40,
+                                                                  "#d69b31",
+                                                                  "#438875"
+                                                              ),
+                                                              fuelText: If(
+                                                                  IsBlank(equipment.fuelPercent),
+                                                                  "—",
+                                                                  Text(Round(equipment.fuelPercent, 0), "0") & "%"
+                                                              )
+                                                          },
+                                                          "<div style='width:48px;height:48px;box-sizing:border-box;border-radius:50%;padding:3px;background:conic-gradient("
+                                                              & gaugeColor & " "
+                                                              & Text(Round(fuel, 0), "0", "en-US") & "%,#d9e0d6 0);box-shadow:0 0 0 2px white'>"
+                                                              & "<div style='width:100%;height:100%;border-radius:50%;background:#fdfef9;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden'>"
+                                                              & "<img src='{{imageUrl}}' alt='' style='width:30px;height:26px;object-fit:contain'>"
+                                                              & "<small style='font:700 9px/10px Segoe UI,Arial,sans-serif;color:#344c40'>"
+                                                              & fuelText
+                                                              & "</small></div></div>"
+                                                      ),
+                                                      Blank()
+                                                  ),
+                                                  fields: {
+                                                      speedKph: equipment.speedKph
+                                                  }
+                                              }
+                                          ),
+                                          JSONFormat.Compact
+                                      )
+                                    CustomTileProvidersJson: |-
+                                      =If(
+                                          IsBlank(varMapboxToken),
+                                          "[]",
+                                          JSON(
+                                              Table(
+                                                  {
+                                                      name: "Mapbox Satellite + roads",
+                                                      url: "https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v12/tiles/512/{z}/{x}/{y}@2x?access_token={apiKey}",
+                                                      apiKey: varMapboxToken,
+                                                      attribution: "© Mapbox © OpenStreetMap contributors",
+                                                      tileSize: 512,
+                                                      zoomOffset: -1,
+                                                      maxNativeZoom: 19
+                                                  }
+                                              ),
+                                              JSONFormat.Compact
+                                          )
+                                      )
+                                    Height: =Parent.Height
+                                    HtmlCatalogJson: |-
+                                      =JSON(
+                                          Table(
+                                              {
+                                                  htmlKey: "standard",
+                                                  html: "<div style='width:48px;height:48px;border-radius:50%;background:#f7faf8;border:3px solid #315f55;display:flex;align-items:center;justify-content:center'>
+                                                      <img src='{{imageUrl}}' alt='' style='width:34px;height:34px;object-fit:contain'>
+                                                  </div>"
+                                              },
+                                              {
+                                                  htmlKey: "maintenance",
+                                                  html: "<div style='width:48px;height:48px;border-radius:50%;background:#fff5ed;border:3px solid #b45309;display:flex;align-items:center;justify-content:center'>
+                                                      <img src='{{imageUrl}}' alt='' style='width:34px;height:34px;object-fit:contain'>
+                                                  </div>"
+                                              }
+                                          ),
+                                          JSONFormat.Compact
+                                      )
+                                    ImageCatalogJson: =varImageCatalogJson
+                                    LabelOffsetY: =-12
+                                    LabelPosition: ="above"
+                                    MarkerHtmlTemplate: =
+                                    OnChange: |-
+                                      =UpdateContext({ctx_Selected: LeafletMap1.SelectedAssetJson})
+                                    RoadsGeoJson: |-
+                                      ="{
+                                        ""type"": ""FeatureCollection"",
+                                        ""features"": [
+                                          {
+                                            ""type"": ""Feature"",
+                                            ""properties"": {
+                                              ""name"": ""Main haul road"",
+                                              ""status"": ""open"",
+                                              ""color"": ""#e53935"",
+                                              ""weight"": 6,
+                                              ""opacity"": 0.9
+                                            },
+                                            ""geometry"": {
+                                              ""type"": ""LineString"",
+                                              ""coordinates"": [
+                                                [116.0288187, -32.0700533],
+                                                [116.0290329, -32.0700022],
+                                                [116.0288522, -32.0697413],
+                                                [116.0294949, -32.069486],
+                                                [116.0299635, -32.0693158],
+                                                [116.0304656, -32.0689186],
+                                                [116.0313895, -32.0685953],
+                                                [116.0320456, -32.0685385],
+                                                [116.0323134, -32.0685783],
+                                                [116.0324004, -32.0687655],
+                                                [116.0323469, -32.0689357],
+                                                [116.0319586, -32.0691399],
+                                                [116.03151, -32.0693271],
+                                                [116.0310146, -32.0696051],
+                                                [116.0307401, -32.0699228],
+                                                [116.0306397, -32.0703256],
+                                                [116.0305861, -32.0706944],
+                                                [116.0305593, -32.0710007],
+                                                [116.0307602, -32.0712276],
+                                                [116.0310882, -32.0714432],
+                                                [116.0317309, -32.0719481],
+                                                [116.0317142, -32.0721392],
+                                                [116.0316284, -32.0722969]
+                                              ]
+                                            }
+                                          },
+                                          {
+                                            ""type"": ""Feature"",
+                                            ""properties"": {
+                                              ""name"": ""Loading spur (fictional)"",
+                                              ""status"": ""open"",
+                                              ""color"": ""#2563eb"",
+                                              ""weight"": 5,
+                                              ""opacity"": 0.9
+                                            },
+                                            ""geometry"": {
+                                              ""type"": ""LineString"",
+                                              ""coordinates"": [
+                                                [116.0288187, -32.0700533],
+                                                [116.02854, -32.07019],
+                                                [116.02825, -32.07028],
+                                                [116.02795, -32.07036]
+                                              ]
+                                            }
+                                          },
+                                          {
+                                            ""type"": ""Feature"",
+                                            ""properties"": {
+                                              ""name"": ""Workshop access (fictional)"",
+                                              ""status"": ""restricted"",
+                                              ""color"": ""#f59e0b"",
+                                              ""weight"": 5,
+                                              ""opacity"": 0.95,
+                                              ""dashArray"": ""8 6""
+                                            },
+                                            ""geometry"": {
+                                              ""type"": ""LineString"",
+                                              ""coordinates"": [
+                                                [116.0305861, -32.0706944],
+                                                [116.02996, -32.07085],
+                                                [116.02949, -32.07106],
+                                                [116.02915, -32.07128]
+                                              ]
+                                            }
+                                          }
+                                        ]
+                                      }"
+                                    Width: =Parent.Width
+                        - conAssetDetails:
+                            Control: GroupContainer@1.5.0
+                            Variant: ManualLayout
+                            Properties:
+                              BorderColor: =RGBA(210, 220, 216, 1)
+                              BorderThickness: =1
+                              Fill: =RGBA(255, 255, 255, 1)
+                              Height: =360
+                              RadiusBottomLeft: =12
+                              RadiusBottomRight: =12
+                              RadiusTopLeft: =12
+                              RadiusTopRight: =12
+                              Visible: =!IsBlank(ctx_Selected)
+                              Width: =Min(320, Parent.Width - 32)
+                              X: =Parent.Width - Self.Width - 16
+                              Y: =100
+                            Children:
+                              - lblDetailsTitle:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(18, 61, 56, 1)
+                                    FontWeight: =FontWeight.Bold
+                                    Size: =16
+                                    Text: ="Equipment details"
+                                    Width: =Parent.Width - 68
+                                    X: =16
+                                    Y: =12
+                              - btnCloseDetails:
+                                  Control: Classic/Button@2.2.0
+                                  Properties:
+                                    BorderThickness: =0
+                                    Color: =RGBA(18, 61, 56, 1)
+                                    Fill: =RGBA(240, 245, 243, 1)
+                                    Height: =32
+                                    OnSelect: |-
+                                      =UpdateContext({ctx_Selected: Blank()})
+                                    Text: ="✕"
+                                    Width: =32
+                                    X: =Parent.Width - 48
+                                    Y: =12
+                              - lblAssetName:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(18, 61, 56, 1)
+                                    FontWeight: =FontWeight.Bold
+                                    Size: =20
+                                    Text: =If(IsBlank(ctx_Selected), "", Text(ParseJSON(ctx_Selected).name))
+                                    Width: =Parent.Width - 32
+                                    X: =16
+                                    Y: =60
+                              - lblAssetType:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Height: =36
+                                    Text: |-
+                                      =If(IsBlank(ctx_Selected), "", "Type: " & Text(ParseJSON(ctx_Selected).type))
+                                    Width: =Parent.Width - 32
+                                    X: =16
+                                    Y: =110
+                              - lblAssetStatus:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Height: =36
+                                    Text: |-
+                                      =If(IsBlank(ctx_Selected), "", "Status: " & Text(ParseJSON(ctx_Selected).status))
+                                    Width: =Parent.Width - 32
+                                    X: =16
+                                    Y: =150
+                              - lblAssetFuel:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Height: =36
+                                    Text: |-
+                                      =If(IsBlank(ctx_Selected), "", "Fuel: " & If(IsBlank(ParseJSON(ctx_Selected).fuelPercent), "Unknown", Text(ParseJSON(ctx_Selected).fuelPercent) & "%"))
+                                    Width: =Parent.Width - 32
+                                    X: =16
+                                    Y: =190
+                              - lblAssetSpeed:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Height: =36
+                                    Text: |-
+                                      =If(IsBlank(ctx_Selected), "", "Speed: " & If(IsBlank(ParseJSON(ctx_Selected).fields.speedKph), "Unknown", Text(ParseJSON(ctx_Selected).fields.speedKph) & " km/h"))
+                                    Width: =Parent.Width - 32
+                                    X: =16
+                                    Y: =230
+      - conMapboxPopup:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            BorderColor: =RGBA(210, 220, 216, 1)
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =400
+            RadiusBottomLeft: =12
+            RadiusBottomRight: =12
+            RadiusTopLeft: =12
+            RadiusTopRight: =12
+            Visible: =ctx_ShowMapboxPopup
+            Width: =Min(520, Parent.Width - 32)
+            X: =(Parent.Width - Self.Width) / 2
+            Y: =(Parent.Height - Self.Height) / 2
+          Children:
+            - lblMapboxTitle:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(18, 61, 56, 1)
+                  FontWeight: =FontWeight.Bold
+                  Size: =18
+                  Text: ="Try satellite imagery"
+                  Width: =Parent.Width - 48
+                  X: =24
+                  Y: =16
+            - lblMapboxInstructions:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(50, 65, 60, 1)
+                  Height: =90
+                  Size: =11
+                  Text: ="Create a Mapbox account to get a public access token. Mapbox offers a no-card trial with usage limits. Copy your public token, paste it below, then choose Mapbox Satellite + roads in the map layer menu."
+                  Width: =Parent.Width - 48
+                  X: =24
+                  Y: =62
+            - btnMapboxSignup:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderThickness: =0
+                  Color: =RGBA(18, 61, 56, 1)
+                  Fill: =RGBA(240, 245, 243, 1)
+                  OnSelect: =Launch("https://account.mapbox.com/auth/signup/")
+                  Text: ="Get a Mapbox token"
+                  Width: =200
+                  X: =24
+                  Y: =160
+            - lblMapboxToken:
+                Control: Label@2.5.1
+                Properties:
+                  FontWeight: =FontWeight.Semibold
+                  Height: =30
+                  Text: ="Public access token"
+                  Width: =Parent.Width - 48
+                  X: =24
+                  Y: =210
+            - txtMapboxToken:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  Default: =""
+                  Height: =42
+                  HintText: ="Paste your public token, starting with pk."
+                  Width: =Parent.Width - 48
+                  X: =24
+                  Y: =242
+            - lblMapboxNote:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(90, 105, 100, 1)
+                  Height: =36
+                  Size: =9
+                  Text: ="Use a public token only. It is used for this session and is visible in browser requests."
+                  Width: =Parent.Width - 48
+                  X: =24
+                  Y: =288
+            - btnMapboxCancel:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderThickness: =0
+                  Color: =RGBA(18, 61, 56, 1)
+                  Fill: =RGBA(240, 245, 243, 1)
+                  OnSelect: |-
+                    =Reset(txtMapboxToken); UpdateContext({ctx_ShowMapboxPopup: false})
+                  Text: ="Cancel"
+                  Width: =90
+                  X: =Parent.Width - 240
+                  Y: =340
+            - btnMapboxSave:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderThickness: =0
+                  Color: =RGBA(255, 255, 255, 1)
+                  DisplayMode: =If(StartsWith(Trim(txtMapboxToken.Text), "pk."), DisplayMode.Edit, DisplayMode.Disabled)
+                  Fill: =RGBA(18, 91, 74, 1)
+                  OnSelect: |-
+                    =Set(varMapboxToken, Trim(txtMapboxToken.Text)); Reset(txtMapboxToken); UpdateContext({ctx_ShowMapboxPopup: false})
+                  Text: ="Use token"
+                  Width: =116
+                  X: =Parent.Width - 140
+                  Y: =340

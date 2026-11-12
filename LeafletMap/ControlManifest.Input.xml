@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="MineOperations" constructor="LeafletMap" version="1.10.0" display-name-key="Leaflet_PCF" description-key="Read-only Leaflet map for Canvas apps with markers and selection outputs." control-type="standard">
+  <control namespace="LocationMaps" constructor="LocationMap" version="1.12.2" display-name-key="Location_Map" description-key="Read-only Leaflet map for Canvas apps with markers and selection outputs." control-type="standard">
     <external-service-usage enabled="true">
       <domain>tile.openstreetmap.org</domain>
       <domain>tiles.maps.eox.at</domain>
@@ -15,7 +15,7 @@
     <property name="LabelPosition" display-name-key="Label position" description-key="Marker label direction: bottom, top, left or right." of-type="SingleLine.Text" usage="input" required="false" pfx-default-value='"bottom"' />
     <property name="LabelOffsetX" display-name-key="Label offset X" description-key="Horizontal marker label adjustment in pixels." of-type="Whole.None" usage="input" required="false" pfx-default-value="0" />
     <property name="LabelOffsetY" display-name-key="Label offset Y" description-key="Vertical marker label adjustment in pixels." of-type="Whole.None" usage="input" required="false" pfx-default-value="0" />
-    <property name="MapTitle" display-name-key="Map title" description-key="Legacy property retained for compatibility; the map does not display a title." of-type="SingleLine.Text" usage="input" required="false" pfx-default-value='"Mine operations"' />
+    <property name="MapTitle" display-name-key="Map title" description-key="Legacy property retained for compatibility; the map does not display a title." of-type="SingleLine.Text" usage="input" required="false" pfx-default-value='"Location map"' />
     <property name="ImageCatalogJson" display-name-key="Image catalogue JSON" description-key="JSON array of imageKey and imageUrl records for markers." of-type="Multiple" usage="input" required="false" pfx-default-value='""' />
     <property name="MarkerHtmlTemplate" display-name-key="Marker HTML template" description-key="Optional maker-authored marker template with text placeholders and an imageUrl placeholder." of-type="Multiple" usage="input" required="false" pfx-default-value='""' />
     <property name="HtmlCatalogJson" display-name-key="HTML catalogue JSON" description-key="JSON array of htmlKey and html records for individual marker templates." of-type="Multiple" usage="input" required="false" pfx-default-value='""' />

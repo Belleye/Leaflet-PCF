@@ -1,6 +1,6 @@
 # Architecture
 
-Checked against source on 2026-11-12. This describes the implementation, not an intended future design. Public property formats and maker examples remain in the [README](../README.md).
+Checked against source on 2026-11-12. This describes the implementation, not an intended future design. Public property formats and maker examples are in the [control reference](control-reference.md) and [Canvas app guide](building.md).
 
 ## Responsibilities and dependencies
 
@@ -59,7 +59,7 @@ The known-equipment marker removes a failed external image to reveal its built-i
 - Runtime dependencies are Leaflet and DOMPurify, bundled from npm. The PCF makes tile/image requests; no connector, PCF Web API or Dataverse runtime calls occur.
 - OpenStreetMap is built in. EOX, NASA and Mapbox are declared domains but become selectable only when configured. Provider URLs support XYZ placeholders, optional URL-encoded public keys, tile size and zoom offset; no vector tiles, custom headers or auth exchange exists. HTTP is accepted by the parser; production host networking can prevent it from loading.
 - The manifest declares external usage independently of the current basemap toggle. New provider/image domains require reviewing that declaration and rebuilding. It is not a runtime hostname allowlist enforced by `safeImageUrl` or `parseTileProviders`.
-- Custom attribution is escaped and displayed as text. The intended demo uses OpenStreetMap and optionally Mapbox with a user-supplied public key. Provider-required links/logos are not implemented by the generic field; verify current Mapbox requirements and address them before distributing that configuration. Provider terms were not audited in this documentation pass. Demo images are supplied from a Power Apps collection and can serialize as data URLs or HTTPS references.
+- Custom attribution is escaped and displayed as text. Layers hosted at `api.mapbox.com` additionally display a Mapbox logo, linked credits and a feedback link updated to the current map view. Other provider-specific logos and links are not implemented by the generic field. Verify the requirements of the selected style and its data sources before distribution. Demo images are supplied from a Power Apps collection and can serialize as data URLs or HTTPS references.
 - Tile errors display a local warning without clearing data or becoming `ValidationMessage`. Disabling basemaps removes tile layers; it does not suppress external marker images or resources referenced by template CSS.
 - [testMapbox.html](../testMapbox.html) is a separate CDN-backed experiment with Mapbox tiles and forward geocoding. Its ignored `mapbox.local.js` token is not PCF configuration. Geocoding is not a control capability.
 - [sandbox.html](../sandbox.html) is a minimal alternate preview; browser regression tests target the richer root preview. [SVG conversion](../scripts/convert-svg-to-png.mjs) is a local Playwright utility, not a build step. The maintainer chose to remove `portfolio-dist/` alongside its deleted source; the compiled files remain pending removal.
