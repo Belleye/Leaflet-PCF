@@ -12,7 +12,6 @@ A read-only [Leaflet](https://leafletjs.com/) map component for **Power Apps Can
 - **Canvas app integration:** receive the selected record and validation messages as output properties. Filter data and build details panels in Power Apps.
 - **Built-in demo:** explore the map using fictional equipment and roads before connecting your own data.
 
-The component displays data supplied by the app. It does not provide playback, coordinate editing, live location tracking, routing or data writes.
 
 ## Get started
 
