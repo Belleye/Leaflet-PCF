@@ -15,7 +15,7 @@ A read-only [Leaflet](https://leafletjs.com/) map component for **Power Apps Can
 
 ## Get started
 
-- [Import the solution](docs/importing.md) into Power Apps. A release ZIP is coming soon.
+- [Import the solution](docs/importing.md) into Power Apps.
 - [Build a Canvas app](docs/building.md) using the map, sample data and Power Fx formulas.
 - [Control reference](docs/control-reference.md): inputs, outputs, markers, shapes and basemaps.
 
