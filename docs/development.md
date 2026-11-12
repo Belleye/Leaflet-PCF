@@ -2,7 +2,7 @@
 
 ## Local workflow
 
-Use Node.js 22.12+ as documented in the [README](../README.md). Dependencies are locked in [package-lock.json](../package-lock.json); [package.json](../package.json) defines the commands. No Node version file or `engines` constraint is present.
+Use Node.js 22.12+. Dependencies are locked in [package-lock.json](../package-lock.json); [package.json](../package.json) defines the commands. No Node version file or `engines` constraint is present.
 
 ```powershell
 npm ci
@@ -11,6 +11,8 @@ npm run dev
 ```
 
 Open `http://127.0.0.1:5173`. Vite serves [index.html](../index.html) and the actual PCF class with a simulated context. `/sandbox.html` is the minimal alternative. `npm start` runs Microsoft's PCF harness; `npm run start:watch` enables its watch mode. Neither preview proves Canvas-player compatibility.
+
+The standalone [Mapbox test page](../testMapbox.html) also tests place search outside the PCF. To use it, create the Git-ignored `mapbox.local.js` at the repository root containing `window.MAPBOX_TOKEN = "YOUR_PUBLIC_MAPBOX_TOKEN";`, then open the page in a browser. The token is visible to browser users, so use a public, appropriately restricted token.
 
 The manifest generates `LeafletMap/generated/ManifestTypes.d.ts`; regenerate after property changes rather than editing generated types. [tsconfig.json](../tsconfig.json) extends `pcf-scripts` configuration. [eslint.config.mjs](../eslint.config.mjs) uses TypeScript, promise and Microsoft Power Apps rules and excludes generated types. [pcfconfig.json](../pcfconfig.json) sets `out/controls` as output.
 
@@ -39,7 +41,7 @@ The PCF and solution projects target `net462` and reference Power Apps MSBuild p
 
 Three version fields currently differ: npm package `1.0.0`, manifest control `1.10.0`, solution `1.1.0.0` ([solution metadata](../solution/src/Other/Solution.xml)). Their release policy is undocumented; do not assume they must match or that any particular version is deployed. The solution is `MineOperationsMap`, with publisher `MineOperations` and prefix `mine`.
 
-Before distributing a changed control, review manifest compatibility, intended external domains and version changes, run checks and rebuild the solution. Import the unmanaged package into a development environment or the managed package for the intended installation workflow. Enable the environment's Canvas PCF capability and add the imported code component to the app as described in the [README](../README.md#import-into-power-apps). There is no deployment automation, environment configuration or host Canvas app source in this repository.
+Before distributing a changed control, review manifest compatibility, intended external domains and version changes, run checks and rebuild the solution. Import the unmanaged package into a development environment or the managed package for the intended installation workflow. Enable the environment's Canvas PCF capability and add the imported code component to the app as described in the [import guide](importing.md). There is no deployment automation, environment configuration or host Canvas app source in this repository.
 
 The maintainer selected a simple manual release process: increment the control and solution versions independently, build both solution packages, and smoke-test the working Canvas app. Leave the npm package version alone unless needed; the three versions need not match. Record the tested package identity and smoke-test result with the release.
 
@@ -47,4 +49,4 @@ Validate the imported control in the intended app: input formulas, blank versus 
 
 ## Documentation maintenance
 
-Keep public maker instructions in README, terminology in [CONTEXT](../CONTEXT.md), module/data-flow descriptions in [architecture](architecture.md), and consequential decisions in [ADRs](adr/README.md). Record observed behavior separately from inferred rationale. Update relevant docs when changing contract, ownership, network use, build commands or module boundaries. Check relative links and compare claims with both implementation and tests.
+Keep the README focused on an overview and links to maker guides, terminology in [CONTEXT](../CONTEXT.md), module/data-flow descriptions in [architecture](architecture.md), and consequential decisions in [ADRs](adr/README.md). Record observed behavior separately from inferred rationale. Update relevant docs when changing contract, ownership, network use, build commands or module boundaries. Check relative links and compare claims with both implementation and tests.

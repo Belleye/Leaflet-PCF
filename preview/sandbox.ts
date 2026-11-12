@@ -1,10 +1,10 @@
-import { LeafletMap } from "../LeafletMap";
+import { LocationMap } from "../LeafletMap";
 import type { IInputs } from "../LeafletMap/generated/ManifestTypes";
 import "../LeafletMap/css/leaflet.css";
 import "../LeafletMap/css/LeafletMap.css";
 
 const host = document.getElementById("sandbox") as HTMLDivElement;
-const control = new LeafletMap();
+const control = new LocationMap();
 function context(): ComponentFramework.Context<IInputs> {
     return {
         parameters: { AssetsJson: { raw: "" }, RoadsGeoJson: { raw: "" }, UseDemoData: { raw: true },

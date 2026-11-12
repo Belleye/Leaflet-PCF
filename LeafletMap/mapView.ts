@@ -59,9 +59,10 @@ export class MapView {
     private readonly roads: L.GeoJSON;
     private readonly markers = L.layerGroup();
     private readonly tileLayer: L.TileLayer;
+    private readonly mapboxLogo = document.createElement("a");
     private readonly basemapButton = document.createElement("button");
     private basemapStyle = "street";
-    private customLayers: { id: string; name: string; layer: L.TileLayer }[] = [];
+    private customLayers: { id: string; name: string; layer: L.TileLayer; isMapbox: boolean }[] = [];
     private customConfig: string | undefined;
     private customIssues: string[] = [];
     private readonly layersMenu = document.createElement("div");
@@ -122,15 +123,22 @@ export class MapView {
             }
         });
         chooser.append(this.basemapButton, this.layersMenu);
+        this.mapboxLogo.className = "mine-map__mapbox-logo";
+        this.mapboxLogo.href = "https://www.mapbox.com/";
+        this.mapboxLogo.target = "_blank";
+        this.mapboxLogo.rel = "noopener noreferrer";
+        this.mapboxLogo.setAttribute("aria-label", "Mapbox");
+        this.mapboxLogo.hidden = true;
         controls.append(reset, chooser);
         L.DomEvent.disableClickPropagation(controls);
         L.DomEvent.disableScrollPropagation(controls);
-        stage.append(this.surface, this.empty, this.tileMessage, controls);
+        stage.append(this.surface, this.empty, this.tileMessage, controls, this.mapboxLogo);
         this.root.append(this.message, stage);
         container.append(this.root);
         this.map = L.map(this.surface, { center: [-32.0702, 116.0307], zoom: 17, zoomControl: true,
             attributionControl: true, scrollWheelZoom: true, zoomSnap: 0.25, minZoom: 2, maxZoom: 20 });
         this.map.attributionControl.setPrefix(false);
+        this.map.on("moveend zoomend", () => this.updateMapboxFeedback());
         this.basemapButton.disabled = true;
         this.map.on("click", () => {
             this.layersMenu.hidden = true;
@@ -286,12 +294,16 @@ export class MapView {
         this.customLayers = result.providers.map((provider) => {
             const attribution = provider.attribution.replace(/[&<>"']/g, (c) =>
                 ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c] ?? c);
+            const isMapbox = new URL(provider.url.replace(/\{[zxy]\}/g, "0")).hostname === "api.mapbox.com";
+            const credits = isMapbox
+                ? `${attribution} | &copy; <a href="https://www.mapbox.com/about/maps/" target="_blank" rel="noopener noreferrer">Mapbox</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> &copy; <a href="https://www.maxar.com/" target="_blank" rel="noopener noreferrer">Maxar</a> <a class="mine-map__mapbox-feedback" href="https://apps.mapbox.com/feedback/" target="_blank" rel="noopener noreferrer">Improve this map</a>`
+                : attribution;
             const layer = L.tileLayer(provider.url, { maxZoom: 22, maxNativeZoom: provider.maxNativeZoom,
-                tileSize: provider.tileSize, zoomOffset: provider.zoomOffset, attribution });
+                tileSize: provider.tileSize, zoomOffset: provider.zoomOffset, attribution: credits });
             layer.on("tileerror", () => { this.tileFailed = true; this.updateTileMessage(); });
             layer.on("loading", () => { this.tileFailed = false; });
             layer.on("load", () => this.updateTileMessage());
-            return { id: `custom:${provider.name}`, name: provider.name, layer };
+            return { id: `custom:${provider.name}`, name: provider.name, layer, isMapbox };
         });
         if (this.basemapStyle.startsWith("custom:") && !this.customLayers.some((entry) => entry.id === this.basemapStyle)) this.basemapStyle = "street";
         this.refreshBasemap();
@@ -307,6 +319,8 @@ export class MapView {
             { id: "street", name: "Street map", layer: this.tileLayer },
             ...this.customLayers,
         ];
+        const activeLayer = layers.find((option) => option.id === this.basemapStyle);
+        console.info("[LeafletMap] Map layer state", { id: this.basemapStyle, name: activeLayer?.name ?? "unknown", basemapEnabled: this.basemap });
         this.layersMenu.replaceChildren();
         layers.forEach((option) => {
             const button = document.createElement("button");
@@ -315,6 +329,7 @@ export class MapView {
             button.textContent = option.name;
             button.setAttribute("aria-pressed", String(option.id === this.basemapStyle));
             button.addEventListener("click", () => {
+                console.info("[LeafletMap] Map layer changed", { id: option.id, name: option.name });
                 this.basemapStyle = option.id;
                 this.layersMenu.hidden = true;
                 this.refreshBasemap();
@@ -322,8 +337,18 @@ export class MapView {
             });
             this.layersMenu.append(button);
         });
-        if (this.basemap) layers.find((option) => option.id === this.basemapStyle)?.layer.addTo(this.map);
+        if (this.basemap) activeLayer?.layer.addTo(this.map);
+        const showMapboxAttribution = this.basemap && this.customLayers.some((option) => option.id === this.basemapStyle && option.isMapbox);
+        this.mapboxLogo.hidden = !showMapboxAttribution;
+        console.info("[LeafletMap] Mapbox attribution visibility", { shouldShow: showMapboxAttribution, logoHidden: this.mapboxLogo.hidden, layerId: this.basemapStyle, basemapEnabled: this.basemap });
+        this.updateMapboxFeedback();
         this.updateTileMessage();
+    }
+    private updateMapboxFeedback(): void {
+        const link = this.surface.querySelector<HTMLAnchorElement>(".mine-map__mapbox-feedback");
+        if (!link) return;
+        const center = this.map.getCenter();
+        link.href = `https://apps.mapbox.com/feedback/#/${center.lng}/${center.lat}/${this.map.getZoom()}`;
     }
     private updateTileMessage(): void {
         this.tileMessage.hidden = !this.basemap || !this.tileFailed;

@@ -1,7 +1,7 @@
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import { MapView } from "./mapView";
 
-export class LeafletMap implements ComponentFramework.StandardControl<IInputs, IOutputs> {
+export class LocationMap implements ComponentFramework.StandardControl<IInputs, IOutputs> {
     private view: MapView;
     private outputs: IOutputs = { SelectedAssetId: "", SelectedAssetJson: "", SelectionVersion: 0, ValidationMessage: "" };
     private notify: () => void;
